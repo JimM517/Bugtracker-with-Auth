@@ -50,7 +50,7 @@ public class BugList {
         return createdBy;
     }
 
-    public void setCreatedAt(int createdBy) {
+    public void setCreatedBy(int createdBy) {
         this.createdBy = createdBy;
     }
 

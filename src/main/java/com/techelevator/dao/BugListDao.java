@@ -23,6 +23,8 @@ public interface BugListDao {
 
     BugList update(BugList modifiedBugList);
 
+    void deleteUserFromList(int bugListId, int createdBy);
+
     void delete(int bugListId);
 
 
