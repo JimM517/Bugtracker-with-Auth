@@ -32,12 +32,25 @@ public class JdbcBugListDao implements BugListDao{
 
     @Override
     public BugList findById(int bugListId) {
-        return null;
+        BugList bugList = null;
+        String sql = "SELECT * FROM bug_lists WHERE id = ?";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, bugListId);
+        if (rs.next()) {
+            bugList = mapRowToBugList(rs);
+        }
+        return bugList;
     }
 
     @Override
     public BugList filterByName(String name) {
-        return null;
+        BugList bugList = null;
+        String sql = "SELECT * FROM bug_lists WHERE name ILIKE ?";
+        String filteredName = "%" + name + "%";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, filteredName);
+        if (rs.next()) {
+            bugList = mapRowToBugList(rs);
+        }
+        return bugList;
     }
 
     @Override
