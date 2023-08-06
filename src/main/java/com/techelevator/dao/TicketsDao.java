@@ -1,0 +1,26 @@
+package com.techelevator.dao;
+
+import com.techelevator.model.Tickets;
+
+import java.util.List;
+
+public interface TicketsDao {
+
+    List<Tickets> findAll();
+
+    Tickets findById(int id);
+
+    List<Tickets> findByUserId(int createdBy);
+
+    Tickets findByTitle(String title);
+
+    Tickets findByStatus(String status);
+
+    Tickets findByBugListId(int bugListId);
+
+    Tickets createTicket(Tickets newTicket);
+
+    Tickets updateTicket(Tickets modifiedTicket);
+
+    void deleteTicket(int id);
+}
