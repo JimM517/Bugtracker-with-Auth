@@ -54,23 +54,39 @@ public class JdbcBugListDao implements BugListDao{
     }
 
     @Override
-    public BugList findByUserId(int createdBy) {
-        return null;
+    public List<BugList> findByUserId(int createdBy) {
+        List<BugList> results = new ArrayList<>();
+        String sql = "SELECT * FROM bug_lists WHERE createdBy = ?";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, createdBy);
+        while(rs.next()) {
+            BugList bugList = mapRowToBugList(rs);
+            results.add(bugList);
+        }
+        return results;
     }
 
     @Override
     public BugList findByListAndUserId(int bugListId, int createdBy) {
-        return null;
+        BugList bugList = null;
+        String sql = "SELECT * FROM bug_lists WHERE id = ? AND created_by = ?";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, bugListId, createdBy);
+        if (rs.next()) {
+            bugList = mapRowToBugList(rs);
+        }
+        return bugList;
     }
 
     @Override
     public void addUserToList(int bugListId, int createdBy) {
-
+        String sql = "UPDATE bug_lists SET created_by = ? WHERE id = ?";
+        jdbcTemplate.update(sql, createdBy, bugListId);
     }
 
     @Override
     public BugList create(BugList newBugList) {
-        return null;
+        String sql = "INSERT INTO bug_lists (name, description, created_by, created_at) VALUES (?, ?, ?, ?) RETURNING id";
+        int newId = jdbcTemplate.queryForObject(sql, int.class, newBugList.getName(), newBugList.getDescription(), newBugList.getCreatedBy(), newBugList.getCreatedAt());
+        return findById(newId);
     }
 
     @Override

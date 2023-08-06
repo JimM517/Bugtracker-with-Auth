@@ -12,7 +12,7 @@ public interface BugListDao {
 
     BugList filterByName(String name);
 
-    BugList findByUserId(int createdBy);
+    List<BugList> findByUserId(int createdBy);
 
     BugList findByListAndUserId(int bugListId, int createdBy);
 
