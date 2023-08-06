@@ -32,42 +32,79 @@ public class JdbcTicketsDao implements TicketsDao {
 
     @Override
     public Tickets findById(int id) {
-        return null;
+        Tickets ticket = null;
+        String sql = "SELECT * FROM tickets WHERE id = ?";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, id);
+        if (rs.next()) {
+            ticket = mapRowToTickets(rs);
+        }
+        return ticket;
     }
 
     @Override
     public List<Tickets> findByUserId(int createdBy) {
-        return null;
+        List<Tickets> results = new ArrayList<>();
+        String sql = "SELECT * FROM tickets WHERE created_by = ?";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, createdBy);
+        while(rs.next()) {
+            Tickets ticket = mapRowToTickets(rs);
+            results.add(ticket);
+        }
+        return results;
     }
 
     @Override
     public Tickets findByTitle(String title) {
-        return null;
+        Tickets ticket = null;
+        String sql = "SELECT * FROM tickets WHERE title ILIKE ?";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, title);
+        if (rs.next()) {
+            ticket = mapRowToTickets(rs);
+        }
+        return ticket;
     }
 
     @Override
     public Tickets findByStatus(String status) {
-        return null;
+        Tickets ticket = null;
+        String sql = "SELECT * FROM tickets WHERE status = ?";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, status);
+        if (rs.next()) {
+            ticket = mapRowToTickets(rs);
+        }
+        return ticket;
     }
 
     @Override
-    public Tickets findByBugListId(int bugListId) {
-        return null;
+    public List<Tickets> findByBugListId(int bugListId) {
+        List<Tickets> results = new ArrayList<>();
+        String sql = "SELECT * FROM tickets WHERE bug_list_id = ?";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, bugListId);
+        while(rs.next()) {
+            Tickets ticket = mapRowToTickets(rs);
+            results.add(ticket);
+        }
+        return results;
     }
 
     @Override
     public Tickets createTicket(Tickets newTicket) {
-        return null;
+        String sql = "INSERT INTO tickets (title, description, status, created_by, created_at, bug_list_id) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+        int newId = jdbcTemplate.queryForObject(sql, int.class, newTicket.getTitle(), newTicket.getDescription(), newTicket.getStatus(), newTicket.getCreatedBy(), newTicket.getCreatedAt(), newTicket.getBugListId());
+        return findById(newId);
     }
 
     @Override
     public Tickets updateTicket(Tickets modifiedTicket) {
-        return null;
+        String sql = "UPDATE tickets SET title = ?, description = ?, status = ?, created_by = ?, created_at = ?, bug_list_id = ? WHERE id = ?";
+        jdbcTemplate.update(sql, modifiedTicket.getTitle(), modifiedTicket.getDescription(), modifiedTicket.getStatus(), modifiedTicket.getCreatedBy(), modifiedTicket.getCreatedAt(), modifiedTicket.getBugListId(), modifiedTicket.getId());
+        return findById(modifiedTicket.getId());
     }
 
     @Override
     public void deleteTicket(int id) {
-
+        String sql = "DELETE FROM tickets WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
 

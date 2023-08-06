@@ -16,7 +16,7 @@ public interface TicketsDao {
 
     Tickets findByStatus(String status);
 
-    Tickets findByBugListId(int bugListId);
+    List<Tickets> findByBugListId(int bugListId);
 
     Tickets createTicket(Tickets newTicket);
 
