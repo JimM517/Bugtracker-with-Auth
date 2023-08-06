@@ -29,6 +29,17 @@ public class JdbcAssignmentsDao implements AssignmentsDao{
     }
 
     @Override
+    public Assignments findById(int id) {
+        Assignments assignments = null;
+        String sql = "SELECT * FROM assignments WHERE id = ?";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, id);
+        if (rs.next()) {
+            assignments = mapRowToAssignment(rs);
+        }
+        return assignments;
+    }
+
+    @Override
     public List<Assignments> findByTicketId(int ticketId) {
         List<Assignments> results = new ArrayList<>();
         String sql = "SELECT * FROM assignments WHERE ticket_id = ?";
@@ -56,13 +67,21 @@ public class JdbcAssignmentsDao implements AssignmentsDao{
     public Assignments createAssignment(Assignments newAssignment) {
         String sql = "INSERT INTO assignments (ticket_id, user_id, assigned_at) VALUES (?, ?, ?) RETURNING id";
         int newId = jdbcTemplate.queryForObject(sql, int.class, newAssignment.getTicketId(), newAssignment.getUserId(), newAssignment.getAssignedAt());
-        return null;
+        return findById(newId);
 
     }
 
     @Override
     public Assignments updateAssignment(Assignments modifiedAssignment) {
-        return null;
+        String sql = "UPDATE assignments SET ticket_id = ?, user_id = ?, assigned_at = ? WHERE id = ?";
+        jdbcTemplate.update(sql, modifiedAssignment.getTicketId(), modifiedAssignment.getUserId(), modifiedAssignment.getAssignedAt(), modifiedAssignment.getId());
+        return findById(modifiedAssignment.getId());
+    }
+
+    @Override
+    public void deleteAssignment(int id) {
+        String sql = "DELETE FROM assignments WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private Assignments mapRowToAssignment(SqlRowSet results) {

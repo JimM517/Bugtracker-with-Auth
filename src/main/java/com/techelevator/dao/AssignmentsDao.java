@@ -8,6 +8,8 @@ public interface AssignmentsDao {
 
     List<Assignments> listAllAssignments();
 
+    Assignments findById(int id);
+
     List<Assignments> findByTicketId(int ticketId);
 
     List<Assignments> findByUserId(int createdBy);
@@ -15,5 +17,7 @@ public interface AssignmentsDao {
     Assignments createAssignment(Assignments newAssignment);
 
     Assignments updateAssignment(Assignments modifiedAssignment);
+
+    void deleteAssignment(int id);
 
 }
