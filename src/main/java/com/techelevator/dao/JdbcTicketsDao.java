@@ -57,7 +57,8 @@ public class JdbcTicketsDao implements TicketsDao {
     public Tickets findByTitle(String title) {
         Tickets ticket = null;
         String sql = "SELECT * FROM tickets WHERE title ILIKE ?";
-        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, title);
+        String filteredTitle = "%" + title + "%";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, filteredTitle);
         if (rs.next()) {
             ticket = mapRowToTickets(rs);
         }
