@@ -35,31 +35,37 @@ public class BugService {
     //display users on buglist
     //only authenticated users can modify bug lists and tickets/ are able to comment
 
-    public BugList getUsersBugList(Principal principal, int bugListId) {
+    public List<BugList> getUsersBugList(Principal principal) {
         // get current user id
         User user = getCurrentUser(principal);
         int id = user.getId();
 
-        // get current buglist by buglistid
-        BugList bugList = bugListDao.findById(bugListId);
+        //
+        List<BugList> results = bugListDao.findByUserId(id);
 
-        //get tickets
-        List<Tickets> tickets = getTickets(principal, bugListId);
+        // For each bug list get tickets and comments
+        for (BugList bugList : results) {
+            int bugListId = bugList.getId();
 
-        //get comments for each ticket
-        for (Tickets ticket : tickets) {
-            int ticketId = ticket.getId();
-            List<Comments> ticketComments = getTicketComments(principal, ticketId);
-            ticket.setComments(ticketComments);
+//            List<Tickets> tickets = getTickets(principal, bugListId);
+
+            //get our users tickets
+            List<Tickets> tickets = ticketsDao.findByBugListId(bugListId);
+
+            //get comments for each ticket
+            for (Tickets ticket : tickets) {
+                int ticketId = ticket.getId();
+                List<Comments> ticketComments = getTicketComments(principal, ticketId);
+                ticket.setComments(ticketComments);
+            }
+
+
+            // this will set the tickets with comments
+            bugList.setTickets(tickets);
         }
 
-
-        // this will set the tickets with comments
-        bugList.setTickets(tickets);
-
-
         //return final product
-        return bugList;
+        return results;
 
     }
 

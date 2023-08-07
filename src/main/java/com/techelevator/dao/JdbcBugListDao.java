@@ -56,7 +56,7 @@ public class JdbcBugListDao implements BugListDao{
     @Override
     public List<BugList> findByUserId(int createdBy) {
         List<BugList> results = new ArrayList<>();
-        String sql = "SELECT * FROM bug_lists WHERE createdBy = ?";
+        String sql = "SELECT * FROM bug_lists WHERE created_by = ?";
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, createdBy);
         while(rs.next()) {
             BugList bugList = mapRowToBugList(rs);
