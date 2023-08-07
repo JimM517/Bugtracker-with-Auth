@@ -1,6 +1,7 @@
 package com.techelevator.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 public class Tickets {
@@ -13,8 +14,10 @@ public class Tickets {
     private LocalDateTime createdAt;
     private int bugListId;
 
+    private List<Comments> comments;
 
-    public Tickets(int id, String title, String description, String status, int createdBy, LocalDateTime createdAt, int bugListId) {
+
+    public Tickets(int id, String title, String description, String status, int createdBy, LocalDateTime createdAt, int bugListId, List<Comments> comments) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -22,6 +25,7 @@ public class Tickets {
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.bugListId = bugListId;
+        this.comments = comments;
     }
 
     public Tickets() {};
@@ -82,6 +86,14 @@ public class Tickets {
         this.bugListId = bugListId;
     }
 
+    public List<Comments> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public String toString() {
         return "Tickets{" +
@@ -92,6 +104,7 @@ public class Tickets {
                 ", createdBy=" + createdBy +
                 ", createdAt=" + createdAt +
                 ", bugListId=" + bugListId +
+                ", comments=" + comments +
                 '}';
     }
 
@@ -100,11 +113,11 @@ public class Tickets {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tickets tickets = (Tickets) o;
-        return id == tickets.id && createdBy == tickets.createdBy && bugListId == tickets.bugListId && Objects.equals(title, tickets.title) && Objects.equals(description, tickets.description) && Objects.equals(status, tickets.status) && Objects.equals(createdAt, tickets.createdAt);
+        return id == tickets.id && createdBy == tickets.createdBy && bugListId == tickets.bugListId && Objects.equals(title, tickets.title) && Objects.equals(description, tickets.description) && Objects.equals(status, tickets.status) && Objects.equals(createdAt, tickets.createdAt) && Objects.equals(comments, tickets.comments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, status, createdBy, createdAt, bugListId);
+        return Objects.hash(id, title, description, status, createdBy, createdAt, bugListId, comments);
     }
 }
