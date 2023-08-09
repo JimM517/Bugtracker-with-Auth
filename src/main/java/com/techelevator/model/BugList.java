@@ -24,6 +24,10 @@ public class BugList {
         this.tickets = tickets;
     }
 
+    public BugList(int id, String name, String description, int createdBy, LocalDateTime createdAt) {
+        this(id, name, description, createdBy, createdAt, new ArrayList<>());
+    }
+
 
     public BugList() {};
 

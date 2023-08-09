@@ -82,10 +82,11 @@ public class JdbcBugListDao implements BugListDao{
         jdbcTemplate.update(sql, createdBy, bugListId);
     }
 
+    //TODO 8/8 removed created at since it is a timestamp
     @Override
     public BugList create(BugList newBugList) {
-        String sql = "INSERT INTO bug_lists (name, description, created_by, created_at) VALUES (?, ?, ?, ?) RETURNING id";
-        int newId = jdbcTemplate.queryForObject(sql, int.class, newBugList.getName(), newBugList.getDescription(), newBugList.getCreatedBy(), newBugList.getCreatedAt());
+        String sql = "INSERT INTO bug_lists (name, description, created_by) VALUES (?, ?, ?) RETURNING id";
+        int newId = jdbcTemplate.queryForObject(sql, int.class, newBugList.getName(), newBugList.getDescription(), newBugList.getCreatedBy());
         return findById(newId);
     }
 

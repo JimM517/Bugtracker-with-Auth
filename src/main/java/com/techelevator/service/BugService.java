@@ -69,6 +69,29 @@ public class BugService {
 
     }
 
+    public BugList createListForUser(String name, String description, Principal principal) {
+        User user = getCurrentUser(principal);
+
+        //create new buglist object
+        BugList bugList = new BugList();
+
+        //set variables
+        bugList.setName(name);
+        bugList.setDescription(description);
+        bugList.setCreatedBy(user.getId());
+
+        BugList createdList = bugListDao.create(bugList);
+
+        return createdList;
+
+    }
+
+    public void deleteFromBugList(int buglistId, Principal principal) {
+        User user = getCurrentUser(principal);
+        bugListDao.deleteUserFromList(buglistId, user.getId());
+    }
+
+
 
     //helper function
     public User getCurrentUser(Principal principal) {
