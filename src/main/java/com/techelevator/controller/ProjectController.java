@@ -3,10 +3,7 @@ package com.techelevator.controller;
 import com.techelevator.model.BugList;
 import com.techelevator.service.BugService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -38,6 +35,14 @@ public class ProjectController {
 
         BugList addedList = bugService.createListForUser(name, description, principal);
         return addedList;
+    }
+
+
+    //this works do delete the buglist
+    //TODO need to delete just user
+    @DeleteMapping("/projects/{bugListId}")
+    public void deleteList(@PathVariable int bugListId, Principal principal) {
+        bugService.deleteFromBugList(bugListId, principal);
     }
 
 

@@ -101,7 +101,7 @@ public class JdbcBugListDao implements BugListDao{
     //TODO need to make sure this works
     @Override
     public void deleteUserFromList(int bugListId, int createdBy) {
-        String sql = "DELETE FROM bug_lists WHERE id = ? AND createdBy = ?";
+        String sql = "DELETE FROM bug_lists WHERE id = ? AND created_by = ?";
         jdbcTemplate.update(sql, bugListId, createdBy);
     }
 
