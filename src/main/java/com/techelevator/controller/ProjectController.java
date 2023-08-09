@@ -38,12 +38,15 @@ public class ProjectController {
     }
 
 
-    //this works do delete the buglist
+    //this works to delete the buglist
     //TODO need to delete just user
     @DeleteMapping("/projects/{bugListId}")
     public void deleteList(@PathVariable int bugListId, Principal principal) {
         bugService.deleteFromBugList(bugListId, principal);
     }
+
+
+
 
 
 }

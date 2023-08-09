@@ -18,12 +18,15 @@ public interface BugListDao {
 
     void addUserToList(int bugListId, int createdBy);
 
+
     BugList create(BugList newBugList);
 
 
     BugList update(BugList modifiedBugList);
 
-    void deleteUserFromList(int bugListId, int createdBy);
+    void deleteBugList(int bugListId, int createdBy);
+
+    void removeUser(int bugListId, int createdBy);
 
     void delete(int bugListId);
 

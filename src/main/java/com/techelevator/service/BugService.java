@@ -35,6 +35,7 @@ public class BugService {
     //display users on buglist
     //only authenticated users can modify bug lists and tickets/ are able to comment
 
+    // this works
     public List<BugList> getUsersBugList(Principal principal) {
         // get current user id
         User user = getCurrentUser(principal);
@@ -69,6 +70,7 @@ public class BugService {
 
     }
 
+    //this works
     public BugList createListForUser(String name, String description, Principal principal) {
         User user = getCurrentUser(principal);
 
@@ -80,15 +82,17 @@ public class BugService {
         bugList.setDescription(description);
         bugList.setCreatedBy(user.getId());
 
+        //call the jdbcbuglist create function with the set variables
         BugList createdList = bugListDao.create(bugList);
 
         return createdList;
 
     }
 
+    // this works to delete the bug list, not user!!
     public void deleteFromBugList(int buglistId, Principal principal) {
         User user = getCurrentUser(principal);
-        bugListDao.deleteUserFromList(buglistId, user.getId());
+        bugListDao.deleteBugList(buglistId, user.getId());
     }
 
 

@@ -76,11 +76,14 @@ public class JdbcBugListDao implements BugListDao{
         return bugList;
     }
 
+    //Add user to list
     @Override
     public void addUserToList(int bugListId, int createdBy) {
         String sql = "UPDATE bug_lists SET created_by = ? WHERE id = ?";
         jdbcTemplate.update(sql, createdBy, bugListId);
     }
+
+
 
     //TODO 8/8 removed created at since it is a timestamp
     @Override
@@ -98,10 +101,17 @@ public class JdbcBugListDao implements BugListDao{
     }
 
 
-    //TODO need to make sure this works
+    //This works to delete the list
     @Override
-    public void deleteUserFromList(int bugListId, int createdBy) {
+    public void deleteBugList(int bugListId, int createdBy) {
         String sql = "DELETE FROM bug_lists WHERE id = ? AND created_by = ?";
+        jdbcTemplate.update(sql, bugListId, createdBy);
+    }
+
+    // Updated function to remove just the user from a bug list/project
+    @Override
+    public  void removeUser(int bugListId, int createdBy) {
+        String sql = "UPDATE bug_lists SET created_by = DEFAULT WHERE id = ? AND created_by = ?";
         jdbcTemplate.update(sql, bugListId, createdBy);
     }
 
