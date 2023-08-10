@@ -2,8 +2,10 @@ package com.techelevator.controller;
 
 import com.techelevator.model.BugList;
 import com.techelevator.service.BugService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -35,6 +37,14 @@ public class ProjectController {
 
         BugList addedList = bugService.createListForUser(name, description, principal);
         return addedList;
+    }
+
+    @PutMapping("/projects/{bugListId}")
+    public BugList updateList(@PathVariable int bugListId, @RequestBody BugList modifiedList, Principal principal) {
+        if (bugListId != modifiedList.getId()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The id path does not exist or was entered incorrectly", null);
+        }
+        return bugService.updateABugList(bugListId, principal, modifiedList);
     }
 
 
