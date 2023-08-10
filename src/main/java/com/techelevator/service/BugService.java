@@ -117,7 +117,7 @@ public class BugService {
         bugListDao.deleteBugList(buglistId, user.getId());
     }
 
-    //Just remove user
+    // Just remove user
     public void deleteUserFromList(int bugListId, Principal principal) {
         User user = getCurrentUser(principal);
         bugListDao.removeUser(bugListId, user.getId());

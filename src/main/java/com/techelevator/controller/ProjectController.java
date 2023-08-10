@@ -39,10 +39,17 @@ public class ProjectController {
 
 
     //this works to delete the buglist
-    //TODO need to delete just user
+
     @DeleteMapping("/projects/{bugListId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteList(@PathVariable int bugListId, Principal principal) {
         bugService.deleteBugList(bugListId, principal);
+    }
+
+    @DeleteMapping("/projects/{bugListId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteUser(@PathVariable int bugListId, Principal principal) {
+        bugService.deleteUserFromList(bugListId, principal);
     }
 
 
