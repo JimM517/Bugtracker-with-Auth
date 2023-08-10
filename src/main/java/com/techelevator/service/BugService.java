@@ -89,10 +89,38 @@ public class BugService {
 
     }
 
+    // update a buglist
+    public BugList updateABugList(int bugListId, Principal principal, BugList modifiedBugList) {
+        User user = getCurrentUser(principal);
+
+        // find the list to update with findById
+        BugList bugList = bugListDao.findById(bugListId);
+
+        //check to make sure bug list isn't null and our user is on the project to update, don't want any user able to update projects
+        if (bugList != null && bugList.getCreatedBy() == user.getId()) {
+            bugList.setName(modifiedBugList.getName());
+            bugList.setDescription(modifiedBugList.getDescription());
+            bugList.setTickets(getTickets(principal, bugListId));
+
+            BugList updatedList = bugListDao.update(bugList);
+            return updatedList;
+        } else {
+            throw new IllegalArgumentException("Project not found, unable to update!");
+        }
+
+    }
+
+
     // this works to delete the bug list, not user!!
-    public void deleteFromBugList(int buglistId, Principal principal) {
+    public void deleteBugList(int buglistId, Principal principal) {
         User user = getCurrentUser(principal);
         bugListDao.deleteBugList(buglistId, user.getId());
+    }
+
+    //Just remove user
+    public void deleteUserFromList(int bugListId, Principal principal) {
+        User user = getCurrentUser(principal);
+        bugListDao.removeUser(bugListId, user.getId());
     }
 
 

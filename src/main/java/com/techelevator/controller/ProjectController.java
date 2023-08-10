@@ -42,7 +42,7 @@ public class ProjectController {
     //TODO need to delete just user
     @DeleteMapping("/projects/{bugListId}")
     public void deleteList(@PathVariable int bugListId, Principal principal) {
-        bugService.deleteFromBugList(bugListId, principal);
+        bugService.deleteBugList(bugListId, principal);
     }
 
 

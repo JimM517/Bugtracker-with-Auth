@@ -24,12 +24,12 @@ public class BugListController {
 //        return jdbcBugListDao.findAll();
 //    }
 
-    @GetMapping("/bugs")
+    @GetMapping("/dashboard")
     public BugList getByName(@RequestParam String name) {
         return jdbcBugListDao.filterByName(name);
     }
 
-    @GetMapping("/bugs/{id}")
+    @GetMapping("/dashboard/{id}")
     public BugList getListById(@PathVariable int id) {
         return jdbcBugListDao.findById(id);
     }
