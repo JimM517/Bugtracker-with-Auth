@@ -2,11 +2,11 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.JdbcTicketsDao;
 import com.techelevator.model.Tickets;
+import com.techelevator.service.BugService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -16,9 +16,11 @@ import java.util.List;
 public class TicketsController {
 
     private final JdbcTicketsDao jdbcTicketsDao;
+    private final BugService bugService;
 
-    public TicketsController(JdbcTicketsDao jdbcTicketsDao) {
+    public TicketsController(JdbcTicketsDao jdbcTicketsDao, BugService bugService) {
         this.jdbcTicketsDao = jdbcTicketsDao;
+        this.bugService = bugService;
     }
 
     @GetMapping("/tickets")
@@ -32,11 +34,20 @@ public class TicketsController {
         return jdbcTicketsDao.findById(ticketId);
     }
 
-
     @PostMapping("/tickets")
-    public Tickets updateTicket(@RequestBody Tickets ticket, Principal principal) {
+    public Tickets createNewTicket() {
         return null;
     }
+
+
+    @PutMapping("/tickets/{ticketId}")
+    public Tickets updateTicket(@PathVariable int ticketId, Tickets modifiedTicket, Principal principal ) {
+        if (ticketId != modifiedTicket.getId()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The id path does not exist of was entered incorrectly!", null);
+        }
+        return bugService.updateTickets(ticketId, modifiedTicket, principal);
+    }
+
 
 
 

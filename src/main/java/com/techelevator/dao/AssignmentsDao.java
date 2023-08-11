@@ -18,6 +18,8 @@ public interface AssignmentsDao {
 
     Assignments updateAssignment(Assignments modifiedAssignment);
 
+    int countAssignments(int userId);
+
     void deleteAssignment(int id);
 
 }

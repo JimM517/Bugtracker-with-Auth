@@ -79,6 +79,12 @@ public class JdbcAssignmentsDao implements AssignmentsDao{
     }
 
     @Override
+    public int countAssignments(int userId) {
+        String sql = "SELECT Count(*) FROM assignments WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(sql, int.class, userId);
+    }
+
+    @Override
     public void deleteAssignment(int id) {
         String sql = "DELETE FROM assignments WHERE id = ?";
         jdbcTemplate.update(sql, id);

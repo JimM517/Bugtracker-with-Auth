@@ -107,6 +107,10 @@ public class BugService {
 
     }
 
+    public void createNewTicket(Tickets ticket, Principal principal) {
+        // get our bug list
+    }
+
     public Tickets updateTickets(int ticketId, Tickets modifiedTicket, Principal principal) {
         // get our user, don't want anyone to be able to update tickets
         User user = getCurrentUser(principal);
@@ -128,19 +132,11 @@ public class BugService {
     }
 
 
-    public int getAssignmentsTotal(Assignments assignments, int bugListId, Principal principal) {
-
+    public int getAssignmentsTotal(Principal principal) {
+        // get our user
         User user = getCurrentUser(principal);
-
-        int totalAssignments;
-
-        List<Tickets> tickets = getTickets(principal, bugListId);
-        for (Tickets ticket : tickets) {
-            if (ticket.getCreatedBy() == user.getId()) {
-
-            }
-        }
-
+        // return our count
+        return assignmentsDao.countAssignments(user.getId());
     }
 
 
