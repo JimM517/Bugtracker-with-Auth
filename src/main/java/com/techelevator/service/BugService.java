@@ -1,10 +1,7 @@
 package com.techelevator.service;
 
 import com.techelevator.dao.*;
-import com.techelevator.model.BugList;
-import com.techelevator.model.Comments;
-import com.techelevator.model.Tickets;
-import com.techelevator.model.User;
+import com.techelevator.model.*;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
@@ -110,11 +107,50 @@ public class BugService {
 
     }
 
+    public Tickets updateTickets(int ticketId, Tickets modifiedTicket, Principal principal) {
+        // get our user, don't want anyone to be able to update tickets
+        User user = getCurrentUser(principal);
+
+        // Find our ticket
+        Tickets ticket = ticketsDao.findById(ticketId);
+
+        if (ticket != null && ticket.getCreatedBy() == user.getId()) {
+            ticket.setTitle(modifiedTicket.getTitle());
+            ticket.setDescription(modifiedTicket.getDescription());
+            ticket.setStatus(modifiedTicket.getStatus());
+            ticket.setComments(modifiedTicket.getComments());
+
+            return ticket;
+        } else {
+            throw new IllegalArgumentException("Ticket not found to update!");
+        }
+
+    }
+
+
+    public int getAssignmentsTotal(Assignments assignments, int bugListId, Principal principal) {
+
+        User user = getCurrentUser(principal);
+
+        int totalAssignments;
+
+        List<Tickets> tickets = getTickets(principal, bugListId);
+        for (Tickets ticket : tickets) {
+            if (ticket.getCreatedBy() == user.getId()) {
+
+            }
+        }
+
+    }
+
+
+
+
 
     // this works to delete the bug list, not user!!
-    public void deleteBugList(int buglistId, Principal principal) {
+    public void deleteBugList(int bugListId, Principal principal) {
         User user = getCurrentUser(principal);
-        bugListDao.deleteBugList(buglistId, user.getId());
+        bugListDao.deleteBugList(bugListId, user.getId());
     }
 
     // Just remove user

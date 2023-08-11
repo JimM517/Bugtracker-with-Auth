@@ -19,10 +19,6 @@ public class BugListController {
         this.jdbcBugListDao = jdbcBugListDao;
     }
 
-//    @GetMapping("/bugs")
-//    public List<BugList> getAllProjects(@RequestParam String name) {
-//        return jdbcBugListDao.findAll();
-//    }
 
     @GetMapping("/dashboard")
     public BugList getByName(@RequestParam String name) {

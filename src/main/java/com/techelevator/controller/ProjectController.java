@@ -31,12 +31,21 @@ public class ProjectController {
     @PostMapping("/projects")
     public BugList createListForUser(@RequestBody BugList buglist, Principal principal) {
 
-        String name = buglist.getName();
-        String description = buglist.getDescription();
+//        String name = buglist.getName();
+//        String description = buglist.getDescription();
+//
+//
+//        BugList addedList = bugService.createListForUser(name, description, principal);
+//        return addedList;
+        try {
+            String name = buglist.getName();
+            String description = buglist.getDescription();
 
-
-        BugList addedList = bugService.createListForUser(name, description, principal);
-        return addedList;
+            BugList addedList = bugService.createListForUser(name, description, principal);
+            return addedList;
+        } catch (ResponseStatusException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The correct data must be entered to update a project.", null);
+        }
     }
 
     @PutMapping("/projects/{bugListId}")
