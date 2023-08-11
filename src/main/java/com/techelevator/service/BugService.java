@@ -107,6 +107,8 @@ public class BugService {
 
     }
 
+
+    //TODO finish this function!!
     public void createNewTicket(Tickets ticket, Principal principal) {
         // get our bug list
     }
