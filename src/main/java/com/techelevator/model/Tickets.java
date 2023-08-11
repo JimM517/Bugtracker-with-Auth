@@ -1,6 +1,7 @@
 package com.techelevator.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,6 +27,10 @@ public class Tickets {
         this.createdAt = createdAt;
         this.bugListId = bugListId;
         this.comments = comments;
+    }
+
+    public Tickets(int id, String title, String description, String status, int createdBy, LocalDateTime createdAt, int bugListId) {
+        this(id, title, description, status, createdBy, createdAt, bugListId, new ArrayList<>());
     }
 
     public Tickets() {};

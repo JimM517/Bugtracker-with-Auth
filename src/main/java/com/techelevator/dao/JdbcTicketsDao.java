@@ -89,6 +89,13 @@ public class JdbcTicketsDao implements TicketsDao {
     }
 
     @Override
+    public int addTicketToBugList(int bugListId, Tickets addedTicket) {
+        String sql = "INSERT INTO tickets (title, description, status, created_by, bug_list_id) VALUES (?, ?, ?, ?) RETURNING id";
+        int newId = jdbcTemplate.queryForObject(sql, int.class, addedTicket.getTitle(), addedTicket.getDescription(), addedTicket.getStatus(), addedTicket.getCreatedBy(), bugListId);
+        return newId;
+    }
+
+    @Override
     public Tickets createTicket(Tickets newTicket) {
         String sql = "INSERT INTO tickets (title, description, status, created_by, created_at, bug_list_id) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
         int newId = jdbcTemplate.queryForObject(sql, int.class, newTicket.getTitle(), newTicket.getDescription(), newTicket.getStatus(), newTicket.getCreatedBy(), newTicket.getCreatedAt(), newTicket.getBugListId());
