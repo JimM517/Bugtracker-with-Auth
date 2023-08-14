@@ -111,17 +111,29 @@ public class BugService {
     }
 
 
-    //TODO finish this function!!
+
     public void createNewTicket(Tickets ticket, Principal principal) {
+        //get our user and corresponding id
         User user = getCurrentUser(principal);
         int id = user.getId();
 
+        // get the current bug lists for our user
         List<BugList> usersList = bugListDao.findByUserId(id);
-            for(BugList index : usersList) {
-                if (index.getTickets().contains(ticket.getBugListId())) {
-                    ticketsDao.addTicketToBugList(index.getId(), ticket);
-                }
+
+        for (BugList index : usersList) {
+            if (index.getId() == ticket.getBugListId()) {
+                int newTicketId = ticketsDao.addTicketToBugList(index.getId(), ticket);
+
+                // update ticket with new id;
+                ticket.setId(newTicketId);
+                index.getTickets().add(ticket);
+                // exit
+                return;
             }
+        }
+
+        throw new IllegalArgumentException("Bug List was not found for the provided ticket.");
+
     }
 
     public Tickets updateTickets(int ticketId, Tickets modifiedTicket, Principal principal) {

@@ -89,10 +89,10 @@ public class JdbcTicketsDao implements TicketsDao {
     }
 
     @Override
-    public void addTicketToBugList(int bugListId, Tickets addedTicket) {
+    public int addTicketToBugList(int bugListId, Tickets addedTicket) {
         String sql = "INSERT INTO tickets (title, description, status, created_by, bug_list_id) VALUES (?, ?, ?, ?) RETURNING id";
-        jdbcTemplate.queryForObject(sql, int.class, addedTicket.getTitle(), addedTicket.getDescription(), addedTicket.getStatus(), addedTicket.getCreatedBy(), bugListId);
-
+        int addedId = jdbcTemplate.queryForObject(sql, int.class, addedTicket.getTitle(), addedTicket.getDescription(), addedTicket.getStatus(), addedTicket.getCreatedBy(), bugListId);
+        return addedId;
     }
 
     @Override

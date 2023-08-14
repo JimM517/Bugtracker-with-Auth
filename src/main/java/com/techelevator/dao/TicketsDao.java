@@ -18,7 +18,7 @@ public interface TicketsDao {
 
     List<Tickets> findByBugListId(int bugListId);
 
-    void addTicketToBugList(int bugListId, Tickets addedTicket);
+    int addTicketToBugList(int bugListId, Tickets addedTicket);
 
     Tickets createTicket(Tickets newTicket);
 
