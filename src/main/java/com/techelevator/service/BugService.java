@@ -1,7 +1,10 @@
 package com.techelevator.service;
 
 import com.techelevator.dao.*;
-import com.techelevator.model.*;
+import com.techelevator.model.BugList;
+import com.techelevator.model.Comments;
+import com.techelevator.model.Tickets;
+import com.techelevator.model.User;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
@@ -110,7 +113,15 @@ public class BugService {
 
     //TODO finish this function!!
     public void createNewTicket(Tickets ticket, Principal principal) {
-        // get our bug list
+        User user = getCurrentUser(principal);
+        int id = user.getId();
+
+        List<BugList> usersList = bugListDao.findByUserId(id);
+            for(BugList index : usersList) {
+                if (index.getTickets().contains(ticket.getBugListId())) {
+                    ticketsDao.addTicketToBugList(index.getId(), ticket);
+                }
+            }
     }
 
     public Tickets updateTickets(int ticketId, Tickets modifiedTicket, Principal principal) {
