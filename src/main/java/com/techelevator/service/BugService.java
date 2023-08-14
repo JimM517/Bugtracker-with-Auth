@@ -1,13 +1,11 @@
 package com.techelevator.service;
 
 import com.techelevator.dao.*;
-import com.techelevator.model.BugList;
-import com.techelevator.model.Comments;
-import com.techelevator.model.Tickets;
-import com.techelevator.model.User;
+import com.techelevator.model.*;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -127,8 +125,18 @@ public class BugService {
                 // update ticket with new id;
                 ticket.setId(newTicketId);
                 index.getTickets().add(ticket);
-                // exit
+
+
+                // now we can keep track of the new Assignments every time a ticket is made
+                Assignments assignment = new Assignments();
+                assignment.setTicketId(newTicketId);
+                assignment.setUserId(id);
+                assignment.setAssignedAt(LocalDateTime.now());
+
+                assignmentsDao.createAssignment(assignment);
+
                 return;
+
             }
         }
 
@@ -156,6 +164,21 @@ public class BugService {
 
     }
 
+    public void addCommentToTicket(Tickets ticket, Principal principal) {
+
+        User user = getCurrentUser(principal);
+        int id = user.getId();
+
+        List<Comments> results = getTicketComments(principal, ticket.getId());
+
+        for (Comments index : results) {
+            if (index.getTicketId() == ticket.getId()) {
+//                int newId = commentsDao.createComments();
+            }
+        }
+
+    }
+
 
     public int getAssignmentsTotal(Principal principal) {
         // get our user
@@ -163,8 +186,6 @@ public class BugService {
         // return our count
         return assignmentsDao.countAssignments(user.getId());
     }
-
-
 
 
 

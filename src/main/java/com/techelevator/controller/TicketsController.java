@@ -35,8 +35,18 @@ public class TicketsController {
     }
 
     @PostMapping("/tickets")
-    public Tickets createNewTicket() {
-        return null;
+    public void createNewTicket(@RequestBody Tickets ticket, Principal principal) {
+        try {
+            // just extra validation, not sure if this goes here, refactor
+            if (ticket.getTitle() == null || ticket.getDescription() == null) {
+                throw new IllegalArgumentException("Title and description required.");
+            }
+
+            bugService.createNewTicket(ticket, principal);
+
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The ticket you are trying to add does not have a corresponding bug list.", null);
+        }
     }
 
 
