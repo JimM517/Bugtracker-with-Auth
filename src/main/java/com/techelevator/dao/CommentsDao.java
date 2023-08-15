@@ -18,6 +18,8 @@ public interface CommentsDao {
 
     Comments createComments(Comments newComment);
 
+    int addCommentToTicket(int ticketId, Comments addComment);
+
     Comments updateComment(Comments modifiedComment);
 
     void deleteComment(int id);

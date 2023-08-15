@@ -85,6 +85,13 @@ public class JdbcCommentsDao implements CommentsDao{
     }
 
     @Override
+    public int addCommentToTicket(int ticketId, Comments addedComment) {
+        String sql = "INSERT INTO comments (content, created_by, ticket_id) RETURNING id";
+        int newId = jdbcTemplate.queryForObject(sql, int.class, addedComment.getContent(), addedComment.getCreatedBy(), ticketId);
+        return newId;
+    }
+
+    @Override
     public Comments updateComment(Comments modifiedComment) {
         String sql = "UPDATE comments SET content = ?, created_by = ?, created_at = ?, ticket_id = ? WHERE id = ?";
         jdbcTemplate.update(sql, modifiedComment.getContent(), modifiedComment.getCreatedBy(), modifiedComment.getCreatedAt(), modifiedComment.getTicketId(), modifiedComment.getId());

@@ -1,6 +1,8 @@
 package com.techelevator.controller;
 
+import com.techelevator.dao.JdbcCommentsDao;
 import com.techelevator.dao.JdbcTicketsDao;
+import com.techelevator.model.Comments;
 import com.techelevator.model.Tickets;
 import com.techelevator.service.BugService;
 import org.springframework.http.HttpStatus;
@@ -16,10 +18,14 @@ import java.util.List;
 public class TicketsController {
 
     private final JdbcTicketsDao jdbcTicketsDao;
+
+    private final JdbcCommentsDao jdbcCommentsDao;
+
     private final BugService bugService;
 
-    public TicketsController(JdbcTicketsDao jdbcTicketsDao, BugService bugService) {
+    public TicketsController(JdbcTicketsDao jdbcTicketsDao, JdbcCommentsDao jdbcCommentsDao, BugService bugService) {
         this.jdbcTicketsDao = jdbcTicketsDao;
+        this.jdbcCommentsDao = jdbcCommentsDao;
         this.bugService = bugService;
     }
 
@@ -34,13 +40,19 @@ public class TicketsController {
         return jdbcTicketsDao.findById(ticketId);
     }
 
+    @GetMapping("/comments")
+    public List<Comments> getAllComments() {
+        return jdbcCommentsDao.findAllComments();
+    }
+
+    @GetMapping("/comments/{commentId}")
+    public Comments getCommentById(@PathVariable int commentId) {
+        return jdbcCommentsDao.findById(commentId);
+    }
+
     @PostMapping("/tickets")
     public void createNewTicket(@RequestBody Tickets ticket, Principal principal) {
         try {
-            // just extra validation, not sure if this goes here, refactor
-            if (ticket.getTitle() == null || ticket.getDescription() == null) {
-                throw new IllegalArgumentException("Title and description required.");
-            }
 
             bugService.createNewTicket(ticket, principal);
 
@@ -59,6 +71,15 @@ public class TicketsController {
     }
 
 
+
+    @PostMapping("/comments")
+    public void addComment(@RequestBody Comments comment, Principal principal) {
+        try {
+            bugService.addCommentToTicket(comment, principal);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please select the correct ticket so a new comment can be added.", null);
+        }
+    }
 
 
 

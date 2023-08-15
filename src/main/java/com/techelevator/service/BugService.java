@@ -111,6 +111,11 @@ public class BugService {
 
 
     public void createNewTicket(Tickets ticket, Principal principal) {
+
+        if (ticket.getTitle() == null || ticket.getDescription() == null) {
+            throw new IllegalArgumentException("Title and description required.");
+        }
+
         //get our user and corresponding id
         User user = getCurrentUser(principal);
         int id = user.getId();
@@ -164,19 +169,35 @@ public class BugService {
 
     }
 
-    public void addCommentToTicket(Tickets ticket, Principal principal) {
+    public void addCommentToTicket(Comments comment, Principal principal) {
+
+        // extra validation, not sure if I want to put this in here or in the controller
+        if (comment.getContent() == null || comment.getContent().isEmpty()) {
+            throw new IllegalArgumentException("Comment content is required.");
+        }
+
 
         User user = getCurrentUser(principal);
         int id = user.getId();
 
-        List<Comments> results = getTicketComments(principal, ticket.getId());
+       List<Tickets> rs = ticketsDao.findByUserId(id);
 
-        for (Comments index : results) {
-            if (index.getTicketId() == ticket.getId()) {
-//                int newId = commentsDao.createComments();
-            }
-        }
+       for (Tickets index : rs) {
 
+           if (index.getId() == comment.getTicketId()) {
+               // check if the comment is already added.
+               boolean commentExists = index.getComments().stream().anyMatch(existingComment -> existingComment.getId() == comment.getId());
+
+               // comment doesn't exist, add it
+               if (!commentExists) {
+                   int newCommentId = commentsDao.addCommentToTicket(index.getId(), comment);
+
+                   comment.setId(newCommentId);
+                   index.getComments().add(comment);
+               }
+           }
+
+       }
     }
 
 
