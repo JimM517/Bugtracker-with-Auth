@@ -11,6 +11,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @PreAuthorize("isAuthenticated()")
 public class ProjectController {
 
@@ -59,10 +60,10 @@ public class ProjectController {
 
     //this works to delete the buglist
 
-    @DeleteMapping("/projects/{bugListId}")
+    @DeleteMapping("/projects/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteList(@PathVariable int bugListId, Principal principal) {
-        bugService.deleteBugList(bugListId, principal);
+    public void deleteList(@PathVariable int id, Principal principal) {
+        bugService.deleteBugList(id, principal);
     }
 
     @DeleteMapping("/projects/{bugListId}")
