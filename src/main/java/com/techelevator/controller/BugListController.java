@@ -12,6 +12,7 @@ import java.util.List;
 @PreAuthorize("permitAll()")
 public class BugListController {
 
+    // TODO check methods, add more error handling
 
     private final JdbcBugListDao jdbcBugListDao;
 

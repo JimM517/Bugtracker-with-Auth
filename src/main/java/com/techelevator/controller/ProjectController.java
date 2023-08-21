@@ -16,6 +16,9 @@ import java.util.List;
 public class ProjectController {
 
 
+    // TODO add more error handling
+
+
     private final BugService bugService;
 
     public ProjectController(BugService bugService) {

@@ -30,6 +30,9 @@ public class TicketsController {
         this.bugService = bugService;
     }
 
+
+    // TODO add more error handling
+
     @GetMapping("/tickets")
     public List<Tickets> findAllTickets() {
         return jdbcTicketsDao.findAll();
