@@ -27,12 +27,13 @@ public class BugListController {
     }
 
 
-    @GetMapping("/dashboard")
-    public BugList getByName(@RequestParam String name) {
-        return jdbcBugListDao.filterByName(name);
-    }
+//     TODO 8/25, don't really think I need this, may refactor to get from /buglist endpoints, but don't see a use for this atm
+//    @GetMapping("/dashboard")
+//    public BugList getByName(@RequestParam String name) {
+//        return jdbcBugListDao.filterByName(name);
+//    }
 
-    @GetMapping("/dashboard/{id}")
+    @GetMapping("/buglist/{id}")
     public BugList getListById(@PathVariable int id) {
         return jdbcBugListDao.findById(id);
     }

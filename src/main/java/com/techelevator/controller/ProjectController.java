@@ -34,13 +34,6 @@ public class ProjectController {
 
     @PostMapping("/projects")
     public BugList createListForUser(@RequestBody BugList buglist, Principal principal) {
-
-//        String name = buglist.getName();
-//        String description = buglist.getDescription();
-//
-//
-//        BugList addedList = bugService.createListForUser(name, description, principal);
-//        return addedList;
         try {
             String name = buglist.getName();
             String description = buglist.getDescription();
