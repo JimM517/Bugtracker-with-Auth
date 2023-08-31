@@ -41,7 +41,7 @@ public class ProjectController {
             BugList addedList = bugService.createListForUser(name, description, principal);
             return addedList;
         } catch (ResponseStatusException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The correct data must be entered to update a project.", null);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The correct data must be entered to create a project.", null);
         }
     }
 
