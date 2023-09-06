@@ -62,7 +62,7 @@ public class ProjectController {
         bugService.deleteBugList(id, principal);
     }
 
-    @DeleteMapping("/projects/{bugListId}")
+    @DeleteMapping("/projects/user/{bugListId}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(@PathVariable int bugListId, Principal principal) {
         bugService.deleteUserFromList(bugListId, principal);
