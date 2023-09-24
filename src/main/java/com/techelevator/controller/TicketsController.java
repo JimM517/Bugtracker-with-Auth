@@ -44,6 +44,7 @@ public class TicketsController {
         return jdbcTicketsDao.findById(ticketId);
     }
 
+    // TODO 9/23, tickets aren't loading for some reason for lists, need to fix
     @GetMapping("/tickets/bug/{bugId}")
         public List<Tickets> getTicketsByBugId(@PathVariable int bugId) {
             return jdbcTicketsDao.findByBugListId(bugId);
