@@ -32,7 +32,7 @@ public class TicketsController {
 
 
     // TODO add more error handling
-
+    // TODO 9/23, this may not ever be needed? since we only want to show the tickets per bug id
     @GetMapping("/tickets")
     public List<Tickets> findAllTickets() {
         return jdbcTicketsDao.findAll();
@@ -40,9 +40,14 @@ public class TicketsController {
 
 
     @GetMapping("/tickets/{ticketId}")
-    public Tickets getTicketById(int ticketId) {
+    public Tickets getTicketById(@PathVariable int ticketId) {
         return jdbcTicketsDao.findById(ticketId);
     }
+
+    @GetMapping("/tickets/bug/{bugId}")
+        public List<Tickets> getTicketsByBugId(@PathVariable int bugId) {
+            return jdbcTicketsDao.findByBugListId(bugId);
+        }
 
     @GetMapping("/comments")
     public List<Comments> getAllComments() {
