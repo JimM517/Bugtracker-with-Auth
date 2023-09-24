@@ -20,7 +20,7 @@ public class BugListController {
         this.jdbcBugListDao = jdbcBugListDao;
     }
 
-
+    // TODO -> don't think I need this anymore, mostly everything should be in project controller
     @GetMapping("/buglist")
     public List<BugList> getAllProjects() {
         return jdbcBugListDao.findAll();
